@@ -22,10 +22,12 @@ module RockQueue
     
     module InstanceMethods 
       def async(method, *args)
+	return true if Config.instance.stub_active_record
         RockQueue.push(self.class.queue, self.class, id, method, *args)
       end
       
       def async_at(method, time_to_run_at, *args)
+	return true if Config.instance.stub_active_record
         RockQueue.push_at(self.class, time_to_run_at, id, method, *args)
       end
     end 
